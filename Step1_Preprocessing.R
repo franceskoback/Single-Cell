@@ -79,6 +79,43 @@ head(tenXdata@meta.data)
 cat('Saving rds...\n')
 saveRDS(tenXdata, file = args$output_file)
 #saveRDS(tenXdata, file = "/wynton/home/srivastava/franceskoback/SRA_Analysis/data/noFilters_scoresAdded.rds")
-print("Done! Please progress to Notebook 2")
+
+cat('rds saved! Generating plots for user input in next step ...\n')
+qc.metrics <- tenXdata[[c("nCount_RNA","nFeature_RNA","percent.mt","percent.ribo")]]
+
+
+### plot w/ ggplot
+# % mito
+qc.metrics %>%
+  ggplot(aes(percent.mt)) +
+  geom_histogram(binwidth = 0.4, fill="yellow", colour="black") +
+  ggtitle("percent.mt")
+ggsave("../plots/initial_clustering/mito_init.png,", width = 12, height = 12, device = "png")
+
+
+# % ribo
+qc.metrics %>%
+  ggplot(aes(percent.ribo)) +
+  geom_histogram(binwidth = 0.4, fill="yellow", colour="black") +
+  ggtitle("percent.ribo")
+ggsave("../plots/initial_clustering/ribo_init.png,", width = 12, height = 12, device = "png")
+
+
+# nCount
+qc.metrics %>%
+  ggplot(aes(nCount_RNA)) +
+  geom_histogram(binwidth = 100, fill="yellow", colour="black") +
+  ggtitle("nCount_RNA")
+ggsave("../plots/initial_clustering/nCount_init.png,", width = 12, height = 12, device = "png")
+
+# nFeature
+qc.metrics %>%
+  ggplot(aes(nFeature_RNA)) +
+  geom_histogram(binwidth = 100, fill="yellow", colour="black") +
+  ggtitle("nFeature_RNA")
+ggsave("../plots/initial_clustering/nFeature_init.png,", width = 12, height = 12, device = "png")
+
+
+print("Done! Please progress to Notebook 2 with user inputs as specified depending on mito, ribo, nFeat, and nCount metrics")
 
 

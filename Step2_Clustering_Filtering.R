@@ -8,7 +8,15 @@ library(optparse)
 set.seed(7)
 
 parser = argparse::ArgumentParser(description="Script to QC Filter and Cluster")
-parser$add_argument('input_file', help='input noFilters_scoresAdded.RDS')
+parser$add_argument('unfiltered_rds', help='input noFilters_scoresAdded.RDS')
+parser$add_argument('mito_start', help='mito start')
+parser$add_argument('mito_end', help='mito end')
+parser$add_argument('ribo_start', help='ribo start')
+parser$add_argument('ribo_end', help='ribo end')
+parser$add_argument('nCount_start', help='nCount start')
+parser$add_argument('nCount_end', help='nCount end')
+parser$add_argument('nFeature_start', help='nFeature  start')
+parser$add_argument('nFeature_end', help='nFeature end')
 parser$add_argument('clustered_rds', help='output file name FilteredAndClustered_onlyVarGenes')
 parser$add_argument('reclustered_rds', help='output file name FilteredAndReClustered_onlyVarGenes')
 parser$add_argument('csv',help='output file FindAllMarkers_harmony_res25e-2_05-24-2021.csv')
@@ -25,46 +33,20 @@ print(paste("clustered_rds: ", clustered_rds))
 print(paste("reclustered_rds: ", reclustered_rds))
 print(paste("csv: ",csv ))
 
-tenXdata <- readRDS(file = args$input_file)
+tenXdata <- readRDS(file = args$unfiltered_rds)
 head(tenXdata@meta.data)
 qc.metrics <- tenXdata[[c("nCount_RNA","nFeature_RNA","percent.mt","percent.ribo")]]
 
 
-### plot w/ ggplot
-# % mito
-qc.metrics %>%
-  ggplot(aes(percent.mt)) +
-  geom_histogram(binwidth = 0.4, fill="yellow", colour="black") +
-  ggtitle("percent.mt") +
-  geom_vline(xintercept = c(1, 10)) ### you can play with these values to get an idea of where the filters should be set...
-
-# % ribo
-qc.metrics %>%
-  ggplot(aes(percent.ribo)) +
-  geom_histogram(binwidth = 0.4, fill="yellow", colour="black") +
-  ggtitle("percent.ribo") +
-  geom_vline(xintercept = c(13, 33))
-
-# nCount
-qc.metrics %>%
-  ggplot(aes(nCount_RNA)) +
-  geom_histogram(binwidth = 100, fill="yellow", colour="black") +
-  ggtitle("nCount_RNA") +
-  geom_vline(xintercept = c(2500, 23000))
-
-# nFeature
-qc.metrics %>%
-  ggplot(aes(nFeature_RNA)) +
-  geom_histogram(binwidth = 100, fill="yellow", colour="black") +
-  ggtitle("nFeature_RNA") +
-  geom_vline(xintercept = c(1000, 5000))
-
 ### filter by % mito and rido + nFeature (counts can be adjusted  momentarily, if needed)
 ## store the thresholds as variables for easy use later...
-mito_cutoffs <- c(1,10)
-ribo_cutoffs <- c(13, 33)
-nFeat_cutoffs <- c(1000, 5000)
-nCount_cutoffs <- c(2500, 23000)
+mito_cutoffs <- c(as.numeric(args$mito_start),as.numeric(args$mito_end))
+ribo_cutoffs <- c(as.numeric(args$ribo_start),as.numeric(args$ribo_end))
+nFeat_cutoffs <- c(as.numeric(args$nCount_start),as.numeric(args$nCount_end))
+nCount_cutoffs <- c(as.numeric(args$nFeature_start),as.numeric(args$nFeature_end))
+
+print(mito_cutoffs)
+print(ribo_cutoffs)
 
 qc.metrics_subset <- qc.metrics[qc.metrics$percent.mt > min(mito_cutoffs) & qc.metrics$percent.mt < max(mito_cutoffs) &
                                   qc.metrics$percent.ribo > min(ribo_cutoffs) & qc.metrics$percent.ribo <  max(ribo_cutoffs) &

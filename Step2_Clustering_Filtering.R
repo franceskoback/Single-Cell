@@ -156,18 +156,17 @@ tenXdata <- FindClusters(tenXdata, resolution = 0.25)
 
 DimPlot(tenXdata, split.by = "gem.group")
 DimPlot(tenXdata)
-ggsave("plots/clustering_filtering/DimPlot1.png”, width = 12, height = 12, device = "png")
-
-#output_file1 = args$output_vargenes
-cat('saving clustered rds ...\n')
-#saveRDS(tenXdata,file=args$clustered_rds)
-ls()
-saveRDS(tenXdata,file= clustered_rds)
+ggsave("plots/clustering_filtering/DimPlot_gem.png”, width = 12, height = 12, device = "png")
 
 
-DimPlot(tenXdata, label = TRUE)
-VlnPlot(tenXdata, features = "nFeature_RNA")
-VlnPlot(tenXdata, features = "nCount_RNA")
-ggsave("plots/clustering_filtering/VinPlot.png”, width = 12, height = 12, device = "png")
+
 DimPlot(tenXdata, label = TRUE)
 ggsave("plots/clustering_filtering/DimPlot.png”, width = 12, height = 12, device = "png")
+VlnPlot(tenXdata, features = "nFeature_RNA")
+ggsave("plots/clustering_filtering/VlnPlot_nFeature.png”, width = 12, height = 12, device = "png")
+VlnPlot(tenXdata, features = "nCount_RNA")
+ggsave("plots/clustering_filtering/VlnPlot_nCount.png”, width = 12, height = 12, device = "png")
+
+cat('saving clustered rds ...\n')
+saveRDS(tenXdata,file= clustered_rds)
+

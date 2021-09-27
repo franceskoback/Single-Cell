@@ -23,13 +23,9 @@ parser$add_argument('clustered_rds', help='output file name FilteredAndClustered
 args = parser$parse_args()
 
 clustered_rds <- args$clustered_rds
-reclustered_rds <- args$reclustered_rds
-csv <- args$csv
 
-#print(paste("input_file: ", clustered_rds))
+
 print(paste("clustered_rds: ", clustered_rds))
-print(paste("reclustered_rds: ", reclustered_rds))
-print(paste("csv: ",csv ))
 
 tenXdata <- readRDS(file = args$unfiltered_rds)
 head(tenXdata@meta.data)
@@ -167,7 +163,7 @@ cat('saving clustered rds ...\n')
 #saveRDS(tenXdata,file=args$clustered_rds)
 ls()
 saveRDS(tenXdata,file= clustered_rds)
-#saveRDS(tenXdata,file ="/wynton/home/srivastava/franceskoback/SRA_Analysis/data/FilteredAndClustered_onlyVarGenes.rds")
+
 
 DimPlot(tenXdata, label = TRUE)
 VlnPlot(tenXdata, features = "nFeature_RNA")

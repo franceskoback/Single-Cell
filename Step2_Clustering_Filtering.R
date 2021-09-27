@@ -41,7 +41,6 @@ nFeat_cutoffs <- c(as.numeric(args$nFeature_start),as.numeric(args$nFeature_end)
 
 
 
-
 qc.metrics_subset <- qc.metrics[qc.metrics$percent.mt > min(mito_cutoffs) & qc.metrics$percent.mt < max(mito_cutoffs) &
                                   qc.metrics$percent.ribo > min(ribo_cutoffs) & qc.metrics$percent.ribo <  max(ribo_cutoffs) &
                                   qc.metrics$nFeature_RNA > min(nFeat_cutoffs) & qc.metrics$nFeature_RNA <  max(nFeat_cutoffs) &
@@ -106,7 +105,7 @@ FeatureScatter(tenXdata, feature1 = "nCount_RNA", feature2 = "nFeature_RNA", pt.
 # violinplots
 VlnPlot(cached_data, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2, pt.size=0.1)
 VlnPlot(cached_data, features = c("percent.mt", "percent.ribo"), ncol = 2, pt.size=0.1)
-ggsave("plots/clustering_filtering/VinPlot1.png", width = 12, height = 12, device = "png")
+ggsave("plots/clustering_filtering/VinPlot_filtered.png", width = 12, height = 12, device = "png")
 
 
 
@@ -147,19 +146,15 @@ tenXdata <- RunUMAP(tenXdata, reduction = "harmony", dims = dims) # , n.componen
 tenXdata <- FindNeighbors(tenXdata, reduction = "harmony", dims = dims)
 tenXdata <- FindClusters(tenXdata, resolution = 0.25)
 
-DimPlot(tenXdata, split.by = "gem.group")
-DimPlot(tenXdata)
-ggsave("plots/clustering_filtering/DimPlot_gem.png”, width = 12, height = 12, device = "png")
-
-
-
-DimPlot(tenXdata, label = TRUE)
-ggsave("plots/clustering_filtering/DimPlot.png”, width = 12, height = 12, device = "png")
-VlnPlot(tenXdata, features = "nFeature_RNA")
-ggsave("plots/clustering_filtering/VlnPlot_nFeature.png”, width = 12, height = 12, device = "png")
-VlnPlot(tenXdata, features = "nCount_RNA")
-ggsave("plots/clustering_filtering/VlnPlot_nCount.png”, width = 12, height = 12, device = "png")
-
 cat('saving clustered rds ...\n')
-saveRDS(tenXdata,file= clustered_rds)
+saveRDS(tenXdata,file= args$clustered_rds)
+
+DimPlot(tenXdata, split.by = "gem.group")
+ggsave("plots/clustering_filtering/ElbowPlot.png", width = 12, height = 12, device = "png")
+DimPlot(tenXdata, label = TRUE)
+ggsave("plots/clustering_filtering/DimPlot.png", width = 12, height = 12, device = "png")
+VlnPlot(tenXdata, features = "nFeature_RNA")
+ggsave("plots/clustering_filtering/VlnPlot_nFeature.png", width = 12, height = 12, device = "png")
+VlnPlot(tenXdata, features = "nCount_RNA")
+ggsave("plots/clustering_filtering/VlnPlot_nCount.png", width = 12, height = 12, device = "png")
 

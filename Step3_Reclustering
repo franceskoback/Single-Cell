@@ -1,0 +1,14 @@
+library(Seurat)
+library(ggplot2)
+library(gridExtra)
+library(stringr)
+ set.seed(7)
+ 
+parser = argparse::ArgumentParser(description="Script to QC Filter and Cluster")
+parser$add_argument('clustered_rds', help='input FilteredAndClustered_onlyVarGenes.RDS')
+parser$add_argument('clusters2drop', help='clusters to keep, ex: c(9,10,11)')
+#parser$add_argument('reclustered_rds', help='output file name FilteredAndClustered_onlyVarGenes')
+ 
+clustered_rds <- readRDS(file= args$clustered_rds)
+clusterstodrop<- args$clusters2drop
+

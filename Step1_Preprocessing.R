@@ -3,6 +3,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(Seurat)
 library(optparse)
+library(ggplot2)
 
 ### human to mouse gene conversion function (for cc genes)
 convertHumanGeneList <- function(x){

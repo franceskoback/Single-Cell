@@ -41,13 +41,6 @@ nFeat_cutoffs <- c(as.numeric(args$nFeature_start),as.numeric(args$nFeature_end)
 
 
 
-qc.metrics_subset <- qc.metrics[qc.metrics$percent.mt > min(mito_cutoffs) & qc.metrics$percent.mt < max(mito_cutoffs) &
-                                  qc.metrics$percent.ribo > min(ribo_cutoffs) & qc.metrics$percent.ribo <  max(ribo_cutoffs) &
-                                  qc.metrics$nFeature_RNA > min(nFeat_cutoffs) & qc.metrics$nFeature_RNA <  max(nFeat_cutoffs) &
-                                  qc.metrics$nCount_RNA > min(nCount_cutoffs) & qc.metrics$nCount_RNA < max(nCount_cutoffs),]
-
-print(paste("# of cells before filters:", nrow(qc.metrics)))
-print(paste("# of cells after filters:", nrow(qc.metrics_subset)))
 
 qc.metrics_subset <- qc.metrics[qc.metrics$percent.mt > min(mito_cutoffs) & qc.metrics$percent.mt < max(mito_cutoffs) &
                                   qc.metrics$percent.ribo > min(ribo_cutoffs) & qc.metrics$percent.ribo <  max(ribo_cutoffs) &

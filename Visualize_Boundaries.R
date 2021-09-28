@@ -65,4 +65,3 @@ ggsave("plots/checking_filters/nFeature.png", width = 12, height = 12, device = 
 print("Done! Please progress to Notebook 2 with user inputs as specified depending on mito, ribo, nFeat, and nCount metrics")
 
 
-

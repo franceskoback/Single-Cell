@@ -118,5 +118,3 @@ ggsave("plots/initial_clustering/nFeature_init.png", width = 12, height = 12, de
 
 
 print("Done! Please progress to Notebook 2 with user inputs as specified depending on mito, ribo, nFeat, and nCount metrics")
-
-

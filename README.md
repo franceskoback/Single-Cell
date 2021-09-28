@@ -3,7 +3,7 @@ Workflow for Single-Cell Analysis
 
 To use this script:
 1. git clone https://github.com/franceskoback/Single-Cell
-2. Add your own inputs to the data and filtered_featured_bc folders as specified
+2. Add your own inputs to the data and filtered_featured_bc folders as specified in the path names below: AggrSheet.csv, regev_lab_cell_cycle_genes.txt, filtered_feature_bc_matrix
 3. Use the script as follows: 
 
 

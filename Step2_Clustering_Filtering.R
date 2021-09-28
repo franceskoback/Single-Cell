@@ -158,3 +158,4 @@ ggsave("plots/clustering_filtering/VlnPlot_nFeature.png", width = 12, height = 1
 VlnPlot(tenXdata, features = "nCount_RNA")
 ggsave("plots/clustering_filtering/VlnPlot_nCount.png", width = 12, height = 12, device = "png")
 
+

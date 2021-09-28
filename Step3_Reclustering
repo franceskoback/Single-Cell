@@ -2,15 +2,68 @@ library(Seurat)
 library(ggplot2)
 library(gridExtra)
 library(stringr)
+library(optparse)
  set.seed(7)
  
 parser = argparse::ArgumentParser(description="Script to QC Filter and Cluster")
 parser$add_argument('clustered_rds', help='input FilteredAndClustered_onlyVarGenes.RDS')
-parser$add_argument('clusters2drop', help='clusters to keep, ex: c(9,10,11)')
-#parser$add_argument('reclustered_rds', help='output file name FilteredAndClustered_onlyVarGenes')
+parser$add_argument('num_clusters', help='number of clusters')
+parser$add_argument('reclustered_rds', help='output file name FilteredAndClustered_onlyVarGenes')
+parser$add_argument('csvoutput',help='FindAllMarkers_harmony.csv')
+parser$add_argument('clusters2drop', help='clusters to keep, ex: 9,10,11')
 
+print("here1")
 args = parser$parse_args()
- 
+print("here2")
+
 clustered_rds <- readRDS(file= args$clustered_rds)
 clusterstodrop<- args$clusters2drop
+clusters2keep <- 0:args$num_clusters
+clusters2drop<-strsplit(clusterstodrop,",")[[1]]
+
+for (i in 1:length(clusters2drop)){
+  clusters2keep<-clusters2keep[clusters2keep !=as.numeric(clusters2drop[i])]
+  }
+print("here")
+clustered_rds<- subset(clustered_rds, idents = clusters2keep)
+
+### SCTransform - same settings as before
+clustered_rds <- SCTransform(clustered_rds, assay = "RNA", new.assay.name = "SCT", 
+                                    variable.features.n = 4000, 
+                                    variable.features.rv.th = 1.3, 
+                                    vars.to.regress = c("percent.ribo", "percent.mt", "G2M.Score", "S.Score"), 
+                                    return.only.var.genes = TRUE,conserve.memory=TRUE)
+
+### PCA
+clustered_rds <- RunPCA(clustered_rds, verbose = FALSE, npcs = 100)
+### harmony
+clustered_rds <- harmony::RunHarmony(clustered_rds, group.by.vars = "gem.group", assay.use="SCT")
+### elbowplot, just to check
+ ElbowPlot(clustered_rds, ndims = 50)
+ ggsave("plots/reclustered_refiltered/ElbowPlot.png", width = 12, height = 12, device = "png")
+
+### set dims
+dims <- 1:35 ### relatively high # of dims, UMAP can take it.
+### NOTE: n.components = 3l is for 3d plotting *cool_emoji*)
+### umap, neighbors, and clusters
+clustered_rds <- RunUMAP(clustered_rds, reduction = "harmony", dims = dims) # , n.components = 3L)
+clustered_rds <- FindNeighbors(clustered_rds, reduction = "harmony", dims = dims)
+reclustered_rds <- FindClusters(clustered_rds, resolution = 0.25)
+
+DimPlot(reclustered_rds, split.by = "gem.group")
+ggsave("plots/reclustered_refiltered/DimPlot_gem.png", width = 12, height = 12, device = "png")
+DimPlot(reclustered_rds)
+ggsave("plots/reclustered_refiltered/DimPlot.png", width = 12, height = 12, device = "png")
+
+VlnPlot(reclustered_rds, features = "nFeature_RNA")
+ggsave("plots/reclustered_refiltered/Vln_nFeature.png", width = 12, height = 12, device = "png")
+VlnPlot(reclustered_rds, features = "nCount_RNA")
+ggsave("plots/reclustered_refiltered/Vln_nCount.png", width = 12, height = 12, device = "png")
+DimPlot(reclustered_rds, label = TRUE)
+ggsave("plots/reclustered_refiltered/DimPlot_label.png", width = 12, height = 12, device = "png")
+
+saveRDS(reclustered_rds, file =args$reclustered_rds)
+FoundMarkers <- FindAllMarkers(reclustered_rds, random.seed = 7)
+
+write.csv(FoundMarkers,args$csvoutput)
 

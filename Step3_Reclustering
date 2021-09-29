@@ -10,11 +10,10 @@ parser$add_argument('clustered_rds', help='input FilteredAndClustered_onlyVarGen
 parser$add_argument('num_clusters', help='number of clusters')
 parser$add_argument('reclustered_rds', help='output file name FilteredAndClustered_onlyVarGenes')
 parser$add_argument('csvoutput',help='FindAllMarkers_harmony.csv')
-parser$add_argument('clusters2drop', help='clusters to keep, ex: 9,10,11')
+parser$add_argument('clusters2drop', help='clusters to drop, ex: 9,10,11')
 
-print("here1")
 args = parser$parse_args()
-print("here2")
+
 
 clustered_rds <- readRDS(file= args$clustered_rds)
 clusterstodrop<- args$clusters2drop
@@ -24,7 +23,7 @@ clusters2drop<-strsplit(clusterstodrop,",")[[1]]
 for (i in 1:length(clusters2drop)){
   clusters2keep<-clusters2keep[clusters2keep !=as.numeric(clusters2drop[i])]
   }
-print("here")
+
 clustered_rds<- subset(clustered_rds, idents = clusters2keep)
 
 ### SCTransform - same settings as before

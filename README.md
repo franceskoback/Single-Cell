@@ -18,3 +18,5 @@ Rscript Step3_Reclustering.R /wynton/home/srivastava/franceskoback/Single-Cell/d
 
 Or, if you want to submit as a job, run a bash file, such as qsub -m ea -M frances.koback@gladstone.ucsf.edu bash_script.sh 
 An example bash file that you could use is attached in this repository-- edit it as you wish on your computer
+
+All of this code was modified from Angelo Pelonero's code for this pipeline 

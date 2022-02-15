@@ -9,9 +9,9 @@ To use this script:
 
 Rscript Step1_Preprocessing.R /wynton/home/srivastava/franceskoback/Single-Cell/filtered_feature_bc_matrix /wynton/home/srivastava/franceskoback/Single-Cell/data/AggrSheet.csv /wynton/home/srivastava/franceskoback/Single-Cell/data/regev_lab_cell_cycle_genes.txt /wynton/home/srivastava/franceskoback/Single-Cell/data/rds/noFilters_scoresAdded.rds 
 
-Rscript Visualize_Boundaries.R /wynton/home/srivastava/franceskoback/Single-Cell/data/noFilters_scoresAdded.rds 1 10 13 33 2500 23000 1000 5000
+Rscript Visualize_Boundaries.R /wynton/home/srivastava/franceskoback/Single-Cell/data/noFilters_scoresAdded.rds --mito_start 1 --mito_end 10 --ribo_start 13 --ribo_end 33 --nCount_start 2500 --nCount_end 23000 --nFeature_start 1000 --nFeature_end 5000
 
-Rscript Step2_Clustering_Filtering.R /wynton/home/srivastava/franceskoback/Single-Cell/data/noFilters_scoresAdded.rds 1 10 13 33 2500 23000 1000 5000 /wynton/home/srivastava/franceskoback/Single-Cell/data/rds/FilteredAndClustered_onlyVarGenes.rds 
+Rscript Step2_Clustering_Filtering.R /wynton/home/srivastava/franceskoback/Single-Cell/data/noFilters_scoresAdded.rds --mito_start 1 --mito_end 10 --ribo_start 13 --ribo_end 33 --nCount_start 2500 --nCount_end 23000 --nFeature_start 1000 --nFeature_end 5000 /wynton/home/srivastava/franceskoback/Single-Cell/data/rds/FilteredAndClustered_onlyVarGenes.rds 
 
 Rscript Step3_Reclustering.R /wynton/home/srivastava/franceskoback/Single-Cell/data/rds/FilteredAndClustered_onlyVarGenes.rds 11 9,10,11 /wynton/home/srivastava/franceskoback/Single-Cell/data/rds/FilteredAndReClustered_onlyVarGenes.rds /wynton/home/srivastava/franceskoback/Single-Cell/data/findAllMarkers_harmony_09_27_2021.csv
 

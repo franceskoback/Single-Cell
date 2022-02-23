@@ -123,18 +123,26 @@ ggsave("plots/checking_filters/Prefiltering/mito_ribo_violin.png", width = 12, h
 
 ### featurescatters
 FeatureScatter(tenXdata, feature1 = "nCount_RNA", feature2 = "percent.mt", pt.size=0.1, group.by = "gem.group")
-ggsave("plots/checking_filters/feature_scatters/Prefiltering/nCount.png", width = 12, height = 12, device = "png")
+ggsave("plots/checking_filters/feature_scatters/Prefiltering/nCount_percentmt.png", width = 12, height = 12, device = "png")
 FeatureScatter(tenXdata, feature1 = "nCount_RNA", feature2 = "percent.ribo", pt.size=0.1, group.by = "gem.group")
-ggsave("plots/checking_filters/feature_scatters/Prefiltering/nCount.png", width = 12, height = 12, device = "png")
+ggsave("plots/checking_filters/feature_scatters/Prefiltering/nCount_percentribo.png", width = 12, height = 12, device = "png")
 FeatureScatter(tenXdata, feature1 = "nFeature_RNA", feature2 = "percent.mt", pt.size=0.1, group.by = "gem.group")
-ggsave("plots/checking_filters/feature_scatters/Prefiltering/nCount.png", width = 12, height = 12, device = "png")
+ggsave("plots/checking_filters/feature_scatters/Prefiltering/nFeature_percentmt.png", width = 12, height = 12, device = "png")
 FeatureScatter(tenXdata, feature1 = "nFeature_RNA", feature2 = "percent.ribo", pt.size=0.1, group.by = "gem.group")
-ggsave("plots/checking_filters/feature_scatters/Prefiltering/nCount.png", width = 12, height = 12, device = "png")
+ggsave("plots/checking_filters/feature_scatters/Prefiltering/nFeature_percentribo.png", width = 12, height = 12, device = "png")
 FeatureScatter(tenXdata, feature1 = "nFeature_RNA", feature2 = "nCount_RNA", pt.size=0.1, group.by = "gem.group")
-ggsave("plots/checking_filters/feature_scatters/Prefiltering/nCount.png", width = 12, height = 12, device = "png")
-FeatureScatter(tenXdata, feature1 = "nCount_RNA", feature2 = "nFeature_RNA", pt.size=0.1, group.by = "gem.group")
-ggsave("plots/checking_filters/feature_scatters/Prefiltering/nCount.png", width = 12, height = 12, device = "png")
+ggsave("plots/checking_filters/feature_scatters/Prefiltering/nFeature_nCount.png", width = 12, height = 12, device = "png")
 
+FeatureScatter(cacheddata, feature1 = "nCount_RNA", feature2 = "percent.mt", pt.size=0.1, group.by = "gem.group")
+ggsave("plots/checking_filters/feature_scatters/ProposedFiltering/nCount_percentmt.png", width = 12, height = 12, device = "png")
+FeatureScatter(cacheddata, feature1 = "nCount_RNA", feature2 = "percent.ribo", pt.size=0.1, group.by = "gem.group")
+ggsave("plots/checking_filters/feature_scatters/ProposedFiltering/nCount_percentribo.png", width = 12, height = 12, device = "png")
+FeatureScatter(cacheddata, feature1 = "nFeature_RNA", feature2 = "percent.mt", pt.size=0.1, group.by = "gem.group")
+ggsave("plots/checking_filters/feature_scatters/ProposedFiltering/nFeature_percentmt.png", width = 12, height = 12, device = "png")
+FeatureScatter(cacheddata, feature1 = "nFeature_RNA", feature2 = "percent.ribo", pt.size=0.1, group.by = "gem.group")
+ggsave("plots/checking_filters/feature_scatters/ProposedFiltering/nFeature_percentribo.png", width = 12, height = 12, device = "png")
+FeatureScatter(cacheddata, feature1 = "nFeature_RNA", feature2 = "nCount_RNA", pt.size=0.1, group.by = "gem.group")
+ggsave("plots/checking_filters/feature_scatters/ProposedFiltering/nFeature_nCount.png", width = 12, height = 12, device = "png")
 
 
 print("Check these plots and adjust boundaries as needed until you are satisfied with the results, then progress to Step2_Clustering_Filtering.R")
